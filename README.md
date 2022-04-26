@@ -1,5 +1,5 @@
 # io_import_collada_normals
-An import script to apply custom mesh normals from a COLLADA 1.4.1 file to objects in Blender.
+An import script to apply custom mesh normals from a COLLADA 1.5.0 file to objects in Blender.
 
 ## Install
 This script is installed the same as any other Blender addon. For those that aren't fimiliar with this process:
