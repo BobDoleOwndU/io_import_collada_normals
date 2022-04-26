@@ -13,14 +13,14 @@ def read_some_data(context, filepath):
     tree = ET.parse(filepath)
     COLLADA = tree.getroot()
     
-    library_geometries = COLLADA.find("./{http://www.collada.org/2005/11/COLLADASchema}library_geometries")
-    library_controllers = COLLADA.find("./{http://www.collada.org/2005/11/COLLADASchema}library_controllers")
-    library_visual_scenes = COLLADA.find("./{http://www.collada.org/2005/11/COLLADASchema}library_visual_scenes")
-    visual_scene = library_visual_scenes.find("./{http://www.collada.org/2005/11/COLLADASchema}visual_scene")
+    library_geometries = COLLADA.find("./{http://www.collada.org/2008/03/COLLADASchema}library_geometries")
+    library_controllers = COLLADA.find("./{http://www.collada.org/2008/03/COLLADASchema}library_controllers")
+    library_visual_scenes = COLLADA.find("./{http://www.collada.org/2008/03/COLLADASchema}library_visual_scenes")
+    visual_scene = library_visual_scenes.find("./{http://www.collada.org/2008/03/COLLADASchema}visual_scene")
     
     normals = {"objectname" : "objectnormals"}
     
-    for node in visual_scene.iter("{http://www.collada.org/2005/11/COLLADASchema}node"):
+    for node in visual_scene.iter("{http://www.collada.org/2008/03/COLLADASchema}node"):
         numberwithname = 0
         for object in bpy.context.selected_objects:
             if node.attrib["name"] == object.name:
@@ -29,29 +29,29 @@ def read_some_data(context, filepath):
             continue
         
         # Locate geometry for scene node
-        instance_geometry = node.find("./{http://www.collada.org/2005/11/COLLADASchema}instance_geometry")
+        instance_geometry = node.find("./{http://www.collada.org/2008/03/COLLADASchema}instance_geometry")
         meshid = ""
         if instance_geometry is None:
-            instance_controller = node.find("./{http://www.collada.org/2005/11/COLLADASchema}instance_controller")
+            instance_controller = node.find("./{http://www.collada.org/2008/03/COLLADASchema}instance_controller")
             if instance_controller is None:
                 continue
             controllerid = instance_controller.attrib["url"].replace("#", "")
-            controller = library_controllers.find("./{http://www.collada.org/2005/11/COLLADASchema}controller[@id='"+controllerid+"']")
-            meshid = controller.find("./{http://www.collada.org/2005/11/COLLADASchema}skin").attrib["source"].replace("#", "")
+            controller = library_controllers.find("./{http://www.collada.org/2008/03/COLLADASchema}controller[@id='"+controllerid+"']")
+            meshid = controller.find("./{http://www.collada.org/2008/03/COLLADASchema}skin").attrib["source"].replace("#", "")
         else:
             meshid = instance_geometry.attrib["url"].replace("#", "")
-        geometry = library_geometries.find("./{http://www.collada.org/2005/11/COLLADASchema}geometry[@id='"+meshid+"']")
+        geometry = library_geometries.find("./{http://www.collada.org/2008/03/COLLADASchema}geometry[@id='"+meshid+"']")
         
         # Pick out normals
-        mesh = geometry.find("./{http://www.collada.org/2005/11/COLLADASchema}mesh")
-        triangles = mesh.find("./{http://www.collada.org/2005/11/COLLADASchema}triangles")
-        normalinput = triangles.find("./{http://www.collada.org/2005/11/COLLADASchema}input[@semantic='NORMAL']")
+        mesh = geometry.find("./{http://www.collada.org/2008/03/COLLADASchema}mesh")
+        triangles = mesh.find("./{http://www.collada.org/2008/03/COLLADASchema}triangles")
+        normalinput = triangles.find("./{http://www.collada.org/2008/03/COLLADASchema}input[@semantic='NORMAL']")
         if normalinput is None:
             print ( node.attrib["name"] + " has no custom normals.")
             continue
         normalid = normalinput.attrib["source"].replace("#", "")
-        normalsource = mesh.find("./{http://www.collada.org/2005/11/COLLADASchema}source[@id='"+normalid+"']")
-        normals[node.attrib["name"]] = normalsource.find("./{http://www.collada.org/2005/11/COLLADASchema}float_array").text.split()
+        normalsource = mesh.find("./{http://www.collada.org/2008/03/COLLADASchema}source[@id='"+normalid+"']")
+        normals[node.attrib["name"]] = normalsource.find("./{http://www.collada.org/2008/03/COLLADASchema}float_array").text.split()
         
         for object in bpy.context.selected_objects:
             if node.attrib["name"] != object.name:
