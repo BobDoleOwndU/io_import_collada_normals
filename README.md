@@ -11,11 +11,8 @@ This script is installed the same as any other Blender addon. For those that are
 
 ## Use
 1. Import a Collada file using `File > Import > Collada (Default) (.dae)`.
-2. Select all of the objects in your scene (default binding is `A`).
-3. Go to File > Import > Import Collada Normals (.dae).
-4. Import **the same Collada file you imported earlier.**
-5. Objects will now use normals from the Collada file instead of auto-generated geometry normals
+2. Done! The file will have been imported with its original normals intact.
 
-## Notes
-* This addon relies on objects having the same name in your scene as in the Collada file. Objects that have been renamed (manually or by Blender because there was already an object with that name) won't have their normals imported.
-* This addon was thrown together in just a couple hours and with very little testing, so it may be buggy. If it doesn't work properly, let me know and I'll try to fix the issue.
+## Credits
+* Original script by [TiredHobgoblin](https://github.com/TiredHobgoblin).
+* Updated by BobDoleOwndU.
