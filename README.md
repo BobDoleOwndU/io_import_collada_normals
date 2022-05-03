@@ -10,7 +10,7 @@ This script is installed the same as any other Blender addon. For those that are
 5. Click the checkbox next to the addon in the when it pops up in the preferences window.
 
 ## Use
-1. Import a Collada file using `File > Import > Collada (Default) (.dae)`.
+1. Import a Collada file using `File > Import > Collada w/ Normals (.dae)`.
 2. Done! The file will have been imported with its original normals intact.
 
 ## Credits
