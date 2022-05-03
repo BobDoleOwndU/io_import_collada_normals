@@ -23,7 +23,7 @@ def read_some_data(context, filepath):
     for node in visual_scene.iter("{http://www.collada.org/2008/03/COLLADASchema}node"):
         numberwithname = 0
         for object in bpy.context.selected_objects:
-            if node.attrib["name"] == object.name:
+            if node.attrib["name"] == object.name.split(".")[0]:
                 numberwithname += 1
         if numberwithname == 0:
             continue
@@ -54,7 +54,7 @@ def read_some_data(context, filepath):
         normals[node.attrib["name"]] = normalsource.find("./{http://www.collada.org/2008/03/COLLADASchema}float_array").text.split()
         
         for object in bpy.context.selected_objects:
-            if node.attrib["name"] != object.name:
+            if node.attrib["name"] != object.name.split(".")[0]:
                 continue
             formattednormals = [[0,0,0] for i in range(len(normals[node.attrib["name"]])//3)]
             for i in range(len(normals[node.attrib["name"]])):
